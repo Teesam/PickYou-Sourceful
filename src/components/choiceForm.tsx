@@ -80,10 +80,12 @@ const ChoiceForm: React.FC = () => {
     if(empty){
         return toast.error('All scores must be provided!')
     }else if(isChoice){
-        return toast.error('Choice already exists');
+        return toast.error('Choice already exists!');
+    }else if(myChoice.title === ''){
+        return toast.error('Title must be provided!')
     }
 
-    if(!isChoice && !empty){
+    if(!isChoice && !empty && myChoice.title !== ''){
         setUpdate(prev => prev + 1)
         setChoices(prev => [...prev, myChoice]);
         clearForm();

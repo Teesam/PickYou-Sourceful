@@ -21,20 +21,25 @@ interface contextProps {
   setChoices: Dispatch<SetStateAction<FormData[]>>,
   attributes: Attribute[],
   setAttributes: Dispatch<SetStateAction<Attribute[]>>
+  userName: string,
+  setUserName: Dispatch<SetStateAction<string>>
 }
 
 const GlobalStore = createContext<contextProps>({
   choices: [],
   setChoices: (): FormData[] => [],
   attributes: [],
-  setAttributes: (): Attribute[] => []
+  setAttributes: (): Attribute[] => [],
+  userName: '',
+  setUserName: (): string => ''
 })
 
 export const GlobalStoreProvider: React.FC<GlobalStoreProviderProps> = ({children}) => {
   const [ choices, setChoices ] = useState<FormData[]>([]);
-  const [ attributes, setAttributes ] = useState<Attribute[]>([])
+  const [ attributes, setAttributes ] = useState<Attribute[]>([]);
+  const [ userName, setUserName ] = useState<string>('')
 
-  return <GlobalStore.Provider  value={{ choices, setChoices, attributes, setAttributes }}>
+  return <GlobalStore.Provider  value={{ choices, setChoices, attributes, setAttributes, userName, setUserName }}>
           {children}
         </GlobalStore.Provider>
 }
