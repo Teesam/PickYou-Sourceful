@@ -2,53 +2,52 @@
 
 import AttributeDisplay from './attributeDisplay';
 import { useGlobalStore } from './store/contextAPI';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+
+interface Attribute {
+    name: string,
+    weight: string
+  }
+  
+  interface FormData {
+    title: string;
+    attributes: {name: string, score: string}[]
+  }
 
 const Upcoming = () => {
 
-    const { choices } = useGlobalStore()
+    const { choices, setChoices } = useGlobalStore()
+
+    const deleteChoice = (item: FormData) => {
+        const newArray = choices.filter(obj=> obj.title !== item.title);
+        setChoices(newArray);
+    }
 
     return (
         <div>
             <AttributeDisplay />
-            {
-                choices.map((choice, i) => {
-                    return <div key = {i} className='hover:bg-grey transition duration-300 mb-4 flex justify-evenly w-full h-[5rem] border rounded-md border-grey p-4 cursor-pointer'>
-                               
-                                {/* <p className='w-[15%]'>{choice.title}</p>
-                                <div className='w-[70%] flex justify-between'>
-                                    <div className='flex items-center'>
-                                        <p className='mr-4 font-bold'>Calories</p>
-                                        <div className='flex flex-col'> 
-                                            <p>{`score: ${choice.calories.score}`}</p>
-                                            <p>{`Weight: ${choice.calories.weight}`}</p>
-                                        </div>
+            <div className='flex flex-wrap mt-8 w-full justify-evenly xl:justify-between'>
+                {
+                    choices.map((choice, i) => {
+                        return <div key = {i} className='sm:w-[40%] xl:w-[30%] mr-4 hover:bg-grey shadow-md shadow-lightGrey transition duration-300 mb-4 flex flex-col border rounded-md border-grey p-4 cursor-pointer'>
+                                    <div className='w-full flex justify-between'>
+                                        <p className='font-bold'>{choice.title}</p>
+                                        <button onClick={() => deleteChoice(choice)}>
+                                            <FontAwesomeIcon className='cursor-pointer' icon={faXmark} />
+                                        </button>
                                     </div>
-                                    <div className='flex items-center'>
-                                        <p className='mr-4 font-bold'>Cost</p>
-                                        <div className='flex flex-col'> 
-                                            <p>{`score: ${choice.cost.score}`}</p>
-                                            <p>{`Weight: ${choice.cost.weight}`}</p>
-                                        </div>
-                                    </div>
-                                    <div className='flex items-center'>
-                                        <p className='mr-4 font-bold'>Taste</p>
-                                        <div className='flex flex-col'> 
-                                            <p>{`score: ${choice.taste.score}`}</p>
-                                            <p>{`Weight: ${choice.taste.weight}`}</p>
-                                        </div>
-                                    </div>
-                                    <div className='flex items-center'>
-                                        <p className='mr-4 font-bold'>Protein</p>
-                                        <div className='flex flex-col'> 
-                                            <p>{`score: ${choice.protein.score}`}</p>
-                                            <p>{`Weight: ${choice.protein.weight}`}</p>
-                                        </div>
+                                    <div className='flex flex-col items-start'>
+                                        {
+                                            choice.attributes.map((att, i) => {
+                                                return <p key={i}>{`${att.name} - ${att.score}`}</p>
+                                            })
+                                        }
                                     </div>
                                 </div>
-                                <button className='w-[15%]'>Edit</button> */}
-                            </div>
-                })
-            }
+                    })
+                }
+            </div>
         </div>
     )
 }

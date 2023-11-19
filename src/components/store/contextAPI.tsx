@@ -9,7 +9,7 @@ interface Attribute {
 
 interface FormData {
   title: string;
-  attribute: {name: string, score: string}[]
+  attributes: {name: string, score: string}[]
 }
 
 interface GlobalStoreProviderProps {

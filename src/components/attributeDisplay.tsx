@@ -11,13 +11,14 @@ type Attribute = {
 }
 
 const AttributeDisplay = () => {
-    const {attributes, setAttributes } = useGlobalStore();
-    const [currentAttribute, setCurrentAttribute] = useState<Attribute>()
+    const {attributes, setAttributes, choices } = useGlobalStore();
     useEffect(() => {}, [attributes.length])
 
     const deleteAttribute = (item: Attribute) => {
-        const newArray = attributes.filter(obj=> obj.name !== item.name);
-        setAttributes(newArray);
+        if(choices.length < 1){
+            const newArray = attributes.filter(obj=> obj.name !== item.name);
+            setAttributes(newArray);
+        }
     }
     return <div className='flex items-center flex-wrap'>
             {

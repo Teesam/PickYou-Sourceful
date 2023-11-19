@@ -41,14 +41,19 @@ export default function Home() {
     setCurrentNav(data);
   }
 
-  console.log(formType)
-
   return (
-    <main className="relative bg-myWhite min-h-screen max-w-screen w-screen p-10">
+    <main className="bg-myWhite min-h-screen max-w-screen p-10 overflow-x-hidden pb-16">
       <Heading/>
       <TopNav setFormType = {setFormType} onClick={addNewAttribute}  passNavToProp = {currentNavItem} />
       {
         currentNav === 'Current Decision' ? <Upcoming /> : ''
+      }
+
+      {
+        choices.length < 1 ? '' : 
+        <div className='w-full flex justify-end mt-8'>
+          <button className='sm:mb-2 sm:text-[.8rem] sm:p-1 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black'>Get Decision</button>
+        </div>
       }
 
       {

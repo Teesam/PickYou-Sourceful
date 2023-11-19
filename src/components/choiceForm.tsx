@@ -1,60 +1,127 @@
-import { useState, FormEvent, useEffect } from 'react';
+import { useState, FormEvent, useEffect, useRef } from 'react';
 import { useGlobalStore } from './store/contextAPI';
-import { toast, ToastContainer, Zoom } from 'react-toastify';
+import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 type Attribute = {
     name: string,
-    weight: string
+    score: string
 }
 
+interface MyChoice {
+    title: string
+    attributes: Attribute[]
+}
 
 const ChoiceForm: React.FC = () => {
+    const [myChoice, setMyChoice] = useState<MyChoice>({
+        title: '',
+        attributes: []
+    });
+    const [initialForm] = useState<MyChoice>({title: '', attributes: []})
   const [update, setUpdate] = useState<number>(0);
-  const {  attributes} = useGlobalStore();
+  const {choices, setChoices, attributes} = useGlobalStore();
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    
+    if(name === 'choice title'){
+        setMyChoice((prevData) => ({
+            ...prevData,
+            title: value
+        }));
+    }else{
+        if(myChoice.attributes.length < 1){
+            setMyChoice((prevData) => ({
+                ...prevData,
+                attributes: [
+                    ...prevData.attributes, {
+                        name: name,
+                        score: value
+                    }
+                ]
+            }));
+        }else{
+            const newAttributes = myChoice.attributes.filter(obj => obj.name !== name);
+            setMyChoice((prevData) => ({
+                ...prevData,
+                attributes: [
+                    ...newAttributes, {
+                        name: name,
+                        score: value
+                    }
+                ]
+            }));
+        }
+        
+    }
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setUpdate(prev => prev + 1)
+    let empty: boolean = false;
+    let isChoice: boolean = false;
+    if(attributes.length > myChoice.attributes.length){
+        return toast.error('All scores must be provided!')
+    }else{
+        for(let att of myChoice.attributes){
+            if(att.score === ''){
+                empty = true
+            }
+        }
+    }
 
-    clearForm();
+    for(let choice of choices){
+        if(choice.title.toLowerCase() === myChoice.title.toLowerCase()){
+            isChoice = true;
+        }
+    }
+
+    if(empty){
+        return toast.error('All scores must be provided!')
+    }else if(isChoice){
+        return toast.error('Choice already exists');
+    }
+
+    if(!isChoice && !empty){
+        setUpdate(prev => prev + 1)
+        setChoices(prev => [...prev, myChoice]);
+        clearForm();
+    }
   };
 
-  const clearForm = (): void => {
+//   const inputRefs = useRef<HTMLInputElement | null>(null);
 
+  const clearForm = (): void => {
+    setMyChoice(initialForm)
+    // if(inputRefs.current){
+    //     inputRefs.current.forEach((inputRef) => {
+    //         if (inputRef) {
+    //           inputRef.value = '';
+    //         }
+    //       });
+    // }
+    
   }
 
   useEffect( () => {
-    // console.log(attributes);
+    // console.log(choices);
   }, [update]);
 
   return (
     <form onSubmit={handleSubmit} className='mt-4 h-[60%]'>
         <p>Add choices</p>
-        <ToastContainer
-            transition={Zoom}
-            autoClose={4000}
-            hideProgressBar
-            pauseOnHover={false}
-            draggable={false}
-            position="top-center"
-        />
+        
         <br />
         <div className='w-fulls'>
             <label className='font-bold'>Title:</label>
             <input
                 type="text"
                 className='w-full mr-8 border border-deepGrey rounded-md outline-none pt-1 pb-1 pr-2 pl-2'
-            
+                name = 'choice title'
                 autoComplete="off"
                 onChange={handleChange}
-                
+                value={myChoice.title}
             />
         </div>
         
@@ -67,11 +134,12 @@ const ChoiceForm: React.FC = () => {
                                         <p>{item.name}</p>
                                         <input
                                             type="text"
+                                            // ref={(el) => (inputRefs.current[index] = el)}
                                             className='w-[40%] mr-8 border border-deepGrey rounded-md outline-none pt-1 pb-1 pr-2 pl-2'
-                                    
+                                            name = {item.name}
                                             autoComplete="off"
                                             onChange={handleChange}
-                                        
+                                            // value = {myChoice.attributes.length > 0 ? myChoice?.attributes[i]?.score : ''}
                                         />
                                     </div>
                         })

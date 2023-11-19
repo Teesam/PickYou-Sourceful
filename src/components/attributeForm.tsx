@@ -3,7 +3,7 @@
 import { useState, FormEvent, useEffect } from 'react';
 import Attributes from './attributes';
 import { useGlobalStore } from './store/contextAPI';
-import { toast, ToastContainer, Zoom } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 type Attribute = {
@@ -39,9 +39,30 @@ const Form: React.FC = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setUpdate(prev => prev + 1)
-    setAttributes(prev => [...prev, newAttribute])
-    clearForm();
+    let empty: boolean = false;
+    let isDuplicate = false;
+    if(newAttribute.name === '' || newAttribute.weight === ''){
+        empty = true;
+    }else{
+    }
+
+    for(let att of attributes){
+        if(att.name.toLowerCase() === newAttribute.name.toLowerCase()){
+            isDuplicate = true;
+        }
+    }
+
+    if(empty){
+        toast.error('All values must be provided');
+    }else if(isDuplicate){
+        toast.error('Attribute already exists');
+    }
+
+    if(!empty && !isDuplicate){
+        setUpdate(prev => prev + 1)
+        setAttributes(prev => [...prev, newAttribute])
+        clearForm();
+    }
   };
 
   const clearForm = (): void => {
@@ -55,14 +76,6 @@ const Form: React.FC = () => {
   return (
     <form onSubmit={handleSubmit} className='mt-4'>
         <p>Add attribute</p>
-        <ToastContainer
-                transition={Zoom}
-                autoClose={4000}
-                hideProgressBar
-                pauseOnHover={false}
-                draggable={false}
-                position="top-center"
-        />
       <br />
       <div className='flex flex-col items-start'>
         <Attributes attributeName = {newAttribute.name} weight = {newAttribute.weight} name = 'name' handleChange={handleChange} />

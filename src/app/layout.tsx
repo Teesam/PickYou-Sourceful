@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { GlobalStoreProvider } from '@/components/store/contextAPI'
+import { toast, ToastContainer, Zoom } from 'react-toastify';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,6 +20,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <GlobalStoreProvider>
+        <ToastContainer
+            transition={Zoom}
+            autoClose={4000}
+            hideProgressBar
+            pauseOnHover={false}
+            draggable={false}
+            position="top-center"
+        />
           {children}
         </GlobalStoreProvider>
       </body>

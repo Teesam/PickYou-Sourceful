@@ -28,7 +28,8 @@ const config: Config = {
         transparentBlack: "#0006",
         orange: '#ff913d',
         hoverColor: '#f2ede9',
-        red: '#fc031c'
+        red: '#fc031c',
+        lightGrey: '#f0f0f0'
       }
     },
   },
