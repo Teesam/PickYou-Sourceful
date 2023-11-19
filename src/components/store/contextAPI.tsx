@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, Dispatch, SetStateAction } from 'react';
+import React, { createContext, useContext, useState, Dispatch, SetStateAction, ReactNode } from 'react';
 
 interface Attribute {
   name: string,
@@ -12,6 +12,9 @@ interface FormData {
   attribute: {name: string, score: string}[]
 }
 
+interface GlobalStoreProviderProps {
+  children: ReactNode;
+}
 
 interface contextProps {
   choices: FormData[],
@@ -27,7 +30,7 @@ const GlobalStore = createContext<contextProps>({
   setAttributes: (): Attribute[] => []
 })
 
-export const GlobalStoreProvider = ({children}) => {
+export const GlobalStoreProvider: React.FC<GlobalStoreProviderProps> = ({children}) => {
   const [ choices, setChoices ] = useState<FormData[]>([]);
   const [ attributes, setAttributes ] = useState<Attribute[]>([])
 
