@@ -7,6 +7,7 @@ import Modal from '@/components/modal';
 import Upcoming from '@/components/upcoming';
 import { useGlobalStore } from '@/components/store/contextAPI';
 import useDecisionCalculator from '@/components/hooks/useDecisionCalculator';
+import Link from 'next/link';
 
 export default function Page() {
   const [modal, setModal] = useState<boolean>(false);
@@ -41,7 +42,9 @@ export default function Page() {
       {
         choices.length < 1 ? '' : 
         <div className='w-full flex justify-end mt-8'>
-          <button disabled = {choices.length < 2} style={choices.length < 2 ? {opacity: '0.4'} : {}} onClick={showResult} className='sm:mb-2 sm:text-[.8rem] sm:p-1 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black'>Get Decision</button>
+            <Link href={"/result"}>
+                <button disabled = {choices.length < 2} style={choices.length < 2 ? {opacity: '0.4'} : {}} onClick={showResult} className='sm:mb-2 sm:text-[.8rem] sm:p-1 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black'>Get Decision</button>
+            </Link>
         </div>
       }
 
