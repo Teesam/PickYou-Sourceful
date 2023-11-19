@@ -1,7 +1,7 @@
+'use client'
+
 import {useState} from 'react';
 
-
-  
 const Heading = () => {
 
     const [user] = useState({firstName: 'Sam'})

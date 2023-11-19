@@ -42,7 +42,7 @@ const TopNav: React.FC<TopNavProps> = ({ passNavToProp, onClick, setFormType }) 
                 {
                     navItems.map(item => {
                         return (
-                            <li onClick={()=>handleNavItem(item)} className={currentNavItem === item.title ? 'sm:text-[.5rem] sm: transition duration-300 rounded-md pr-4 pl-4 pt-2 pb-2 bg-myWhite cursor-pointer text-black font-bold' : 'sm:text-[.5rem] border-[4] cursor-pointer pr-4 pl-4 pt-2 pb-2 text-deepGrey transition duration-300'} key = {item.id}>{item.title}</li>
+                            <li onClick={()=>handleNavItem(item)} className={currentNavItem === item.title ? 'sm:text-[.5rem] sm:text-center sm:justify-center transition duration-300 rounded-md pr-4 pl-4 pt-2 pb-2 bg-myWhite cursor-pointer text-black font-bold' : 'sm:text-[.5rem] sm:text-center border-[4] cursor-pointer pr-4 pl-4 pt-2 pb-2 text-deepGrey transition duration-300'} key = {item.id}>{item.title}</li>
                         )
                     })
                 }

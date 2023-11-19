@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, FormEvent, useEffect } from 'react';
 import Attributes from './attributes';
 import { useGlobalStore } from './store/contextAPI';
