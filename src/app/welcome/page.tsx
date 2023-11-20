@@ -1,16 +1,26 @@
 'use client'
 
+import { useState } from 'react';
 import { useGlobalStore } from "@/components/store/contextAPI";
-import Link from 'next/link';
+import {useRouter} from 'next/navigation';
 
 
 const Page: React.FC = () => {
-    const {setUserName} = useGlobalStore()
+    const {setUserName, setChoices, setAttributes} = useGlobalStore()
+    const [name, setName ] = useState<string>('')
     const addName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserName(e.target.value);
+        setName(e.target.value);
     }
+    const router = useRouter();
+    const resetStore = ():void => {
+        setChoices([]);
+        setAttributes([]);
+        router.push('/home')
+    }
+
     return(
-        <div className="flex flex-col justify-between bg-grey min-h-screen max-w-screen p-8 overflow-x-hidden">
+        <div className="flex flex-col justify-between bg-grey min-h-screen max-h-screen max-w-screen p-8 overflow-x-hidden">
             <div>
                 <p className="text-[2rem] font-bold">PickYou</p>
             </div>
@@ -25,9 +35,7 @@ const Page: React.FC = () => {
                         />
                     </div>
                     <div className="flex justify-end mt-4">
-                        <Link href="/home">
-                            <button className="sm:mb-2 sm:text-[.8rem] sm:p-1 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black">Proceed</button>
-                        </Link>
+                        <button style={name.length < 1 ? {opacity: '0.4'} : {}} disabled = {name.length < 1} onClick={resetStore} className="sm:mb-2 sm:text-[.8rem] sm:p-1 sm:pr-2 sm:pl-2 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black">Proceed</button>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,8 @@ import { useState, FormEvent, useEffect, useRef } from 'react';
 import { useGlobalStore } from './store/contextAPI';
 import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { isConvertibleToNumber } from './utils/checkNumberValue';
+import { isConvertibleToNumber } from './utils/convertTextToNumber';
+import { isWithinValueRange } from './utils/checkNumberValue';
 
 type Attribute = {
     name: string,
@@ -68,43 +69,61 @@ const ChoiceForm: React.FC = () => {
     return count > 1 ? true : false;
   }
 
+  const checkRange = (): string => {
+    let statement = '';
+    for(let att of myChoice.attributes){
+        const value = isWithinValueRange(att.score, 'choice')
+        if(value !== 'Good'){
+            statement = value;
+        };
+    }
+
+    return statement;
+  }
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    
     let isText = checkInputValue();
     if(!isText){
         return toast.error('Attribute score must be a number!');
     }else{
-        let empty: boolean = false;
-        let isChoice: boolean = false;
-        if(attributes.length > myChoice.attributes.length){
-            return toast.error('All scores must be provided!')
-        }else{
-            for(let att of myChoice.attributes){
-                if(att.score === ''){
-                    empty = true
+        if(checkRange().length < 1){
+            let empty: boolean = false;
+            let isChoice: boolean = false;
+            if(attributes.length > myChoice.attributes.length){
+                return toast.error('All scores must be provided!')
+            }else{
+                for(let att of myChoice.attributes){
+                    if(att.score === ''){
+                        empty = true
+                    }
                 }
             }
-        }
-    
-        for(let choice of choices){
-            if(choice.title.toLowerCase() === myChoice.title.toLowerCase()){
-                isChoice = true;
+        
+            for(let choice of choices){
+                if(choice.title.toLowerCase() === myChoice.title.toLowerCase()){
+                    isChoice = true;
+                }
             }
+        
+            if(empty){
+                return toast.error('All scores must be provided!')
+            }else if(isChoice){
+                return toast.error('Choice already exists!');
+            }else if(myChoice.title === ''){
+                return toast.error('Title must be provided!')
+            }
+        
+            if(!isChoice && !empty && myChoice.title !== ''){
+                setUpdate(prev => prev + 1)
+                setChoices(prev => [...prev, myChoice]);
+                clearForm();
+            }
+        }else{
+            toast.error(checkRange());
         }
-    
-        if(empty){
-            return toast.error('All scores must be provided!')
-        }else if(isChoice){
-            return toast.error('Choice already exists!');
-        }else if(myChoice.title === ''){
-            return toast.error('Title must be provided!')
-        }
-    
-        if(!isChoice && !empty && myChoice.title !== ''){
-            setUpdate(prev => prev + 1)
-            setChoices(prev => [...prev, myChoice]);
-            clearForm();
-        }
+       
     }
 
   };
@@ -158,6 +177,7 @@ const ChoiceForm: React.FC = () => {
                                             name = {item.name}
                                             autoComplete="off"
                                             onChange={handleChange}
+                                            placeholder='0 - 100'
                                             // value = {myChoice.attributes.length > 0 ? myChoice?.attributes[i]?.score : ''}
                                         />
                                     </div>

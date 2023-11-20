@@ -4,8 +4,9 @@ import { useState, FormEvent, useEffect } from 'react';
 import Attributes from './attributes';
 import { useGlobalStore } from './store/contextAPI';
 import { toast } from 'react-toastify';
-import { isConvertibleToNumber } from './utils/checkNumberValue';
+import { isConvertibleToNumber } from './utils/convertTextToNumber';
 import 'react-toastify/dist/ReactToastify.css';
+import { isWithinValueRange } from './utils/checkNumberValue';
 
 type Attribute = {
     name: string,
@@ -43,31 +44,37 @@ const Form: React.FC = () => {
     
     if(!isConvertibleToNumber(newAttribute.weight)){
         return toast.error('Weight must be a number!');
-    }
-    let empty: boolean = false;
-    let isDuplicate = false;
-    if(newAttribute.name === '' || newAttribute.weight === ''){
-        empty = true;
     }else{
-    }
-
-    for(let att of attributes){
-        if(att.name.toLowerCase() === newAttribute.name.toLowerCase()){
-            isDuplicate = true;
+        if(isWithinValueRange(newAttribute.weight, 'attribute') === 'Good'){
+            let empty: boolean = false;
+            let isDuplicate = false;
+            if(newAttribute.name === '' || newAttribute.weight === ''){
+                empty = true;
+            }else{
+            }
+        
+            for(let att of attributes){
+                if(att.name.toLowerCase() === newAttribute.name.toLowerCase()){
+                    isDuplicate = true;
+                }
+            }
+        
+            if(empty){
+                toast.error('All values must be provided');
+            }else if(isDuplicate){
+                toast.error('Attribute already exists');
+            }
+        
+            if(!empty && !isDuplicate){
+                setUpdate(prev => prev + 1)
+                setAttributes(prev => [...prev, newAttribute])
+                clearForm();
+            }
+        }else{
+            toast.error(isWithinValueRange(newAttribute.weight, 'attribute'));
         }
     }
-
-    if(empty){
-        toast.error('All values must be provided');
-    }else if(isDuplicate){
-        toast.error('Attribute already exists');
-    }
-
-    if(!empty && !isDuplicate){
-        setUpdate(prev => prev + 1)
-        setAttributes(prev => [...prev, newAttribute])
-        clearForm();
-    }
+   
   };
 
   const clearForm = (): void => {
@@ -80,7 +87,8 @@ const Form: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} className='mt-4'>
-        <p>Add attribute</p>
+        <p className='mb-2 font-bold'>Add attribute</p>
+        <p>Your attributes will be weighed against your choice scores.</p>
       <br />
       <div className='flex flex-col items-start'>
         <Attributes attributeName = {newAttribute.name} weight = {newAttribute.weight} name = 'name' handleChange={handleChange} />

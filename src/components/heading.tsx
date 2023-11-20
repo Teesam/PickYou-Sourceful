@@ -11,7 +11,7 @@ const Heading = () => {
                 <p className='font-bold text-[2rem]'>PickYou</p>
                 <p className='text-deepGrey'>Make the best decisions for you.</p>
             </div>
-            <p>{ userName !== '' ?  `Hi, ${userName}` : 'Hello!'}</p>
+            <p>{ userName.length > 1 ?  `Hi, ${userName}` : 'Hello!'}</p>
         </div>
     )
 }
