@@ -2,6 +2,7 @@ import { useState, FormEvent, useEffect, useRef } from 'react';
 import { useGlobalStore } from './store/contextAPI';
 import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { isConvertibleToNumber } from './utils/checkNumberValue';
 
 type Attribute = {
     name: string,
@@ -57,39 +58,55 @@ const ChoiceForm: React.FC = () => {
     }
   };
 
+  const checkInputValue = ():boolean => {
+    let count: number = 0;
+    for(let att of myChoice.attributes){
+        if(isConvertibleToNumber(att.score)){
+            count += 1;
+        };
+    }
+    return count > 1 ? true : false;
+  }
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    let empty: boolean = false;
-    let isChoice: boolean = false;
-    if(attributes.length > myChoice.attributes.length){
-        return toast.error('All scores must be provided!')
+    let isText = checkInputValue();
+    if(!isText){
+        return toast.error('Attribute score must be a number!');
     }else{
-        for(let att of myChoice.attributes){
-            if(att.score === ''){
-                empty = true
+        let empty: boolean = false;
+        let isChoice: boolean = false;
+        if(attributes.length > myChoice.attributes.length){
+            return toast.error('All scores must be provided!')
+        }else{
+            for(let att of myChoice.attributes){
+                if(att.score === ''){
+                    empty = true
+                }
             }
         }
-    }
-
-    for(let choice of choices){
-        if(choice.title.toLowerCase() === myChoice.title.toLowerCase()){
-            isChoice = true;
+    
+        for(let choice of choices){
+            if(choice.title.toLowerCase() === myChoice.title.toLowerCase()){
+                isChoice = true;
+            }
+        }
+    
+        if(empty){
+            return toast.error('All scores must be provided!')
+        }else if(isChoice){
+            return toast.error('Choice already exists!');
+        }else if(myChoice.title === ''){
+            return toast.error('Title must be provided!')
+        }
+    
+        if(!isChoice && !empty && myChoice.title !== ''){
+            setUpdate(prev => prev + 1)
+            setChoices(prev => [...prev, myChoice]);
+            clearForm();
         }
     }
 
-    if(empty){
-        return toast.error('All scores must be provided!')
-    }else if(isChoice){
-        return toast.error('Choice already exists!');
-    }else if(myChoice.title === ''){
-        return toast.error('Title must be provided!')
-    }
-
-    if(!isChoice && !empty && myChoice.title !== ''){
-        setUpdate(prev => prev + 1)
-        setChoices(prev => [...prev, myChoice]);
-        clearForm();
-    }
   };
 
 //   const inputRefs = useRef<HTMLInputElement | null>(null);

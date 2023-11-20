@@ -32,7 +32,7 @@ const Upcoming = () => {
                     choices.map((choice, i) => {
                         return <div key = {i} className='sm:w-[40%] xl:w-[30%] mr-4 hover:bg-grey shadow-md shadow-lightGrey transition duration-300 mb-4 flex flex-col border rounded-md border-grey p-4 cursor-pointer'>
                                     <div className='w-full flex justify-between'>
-                                        <p className='font-bold'>{choice.title}</p>
+                                        <p className='font-bold sm:max-w-[90%] sm:break-words'>{choice.title}</p>
                                         <button onClick={() => deleteChoice(choice)}>
                                             <FontAwesomeIcon className='cursor-pointer' icon={faXmark} />
                                         </button>

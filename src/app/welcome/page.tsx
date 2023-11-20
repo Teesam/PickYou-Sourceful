@@ -10,12 +10,12 @@ const Page: React.FC = () => {
         setUserName(e.target.value);
     }
     return(
-        <div className="flex flex-col justify-between bg-grey min-h-screen max-w-screen p-10 overflow-x-hidden pb-16">
+        <div className="flex flex-col justify-between bg-grey min-h-screen max-w-screen p-8 overflow-x-hidden">
             <div>
                 <p className="text-[2rem] font-bold">PickYou</p>
             </div>
             <div className="flex justify-center">
-                <div className="items-center w-[50%]">
+                <div className="items-center xl:w-[50%] sm:w-full">
                     <p className="font-light text-[3rem] mb-4">Welcome</p>
                     <div className="flex flex-col">
                         <label className="mb-2">First Name</label>

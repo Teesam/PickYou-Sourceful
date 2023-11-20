@@ -1,9 +1,9 @@
 'use client'
 
-import {useEffect, useState, useMemo} from 'react';
+import {useEffect, useState} from 'react';
 import AttributeDisplay from "@/components/attributeDisplay";
 import useDecisionCalculator from "@/components/hooks/useDecisionCalculator";
-import { useGlobalStore } from "@/components/store/contextAPI";
+import Link from 'next/link';
 
 interface CalculatedChoices {
     title: string;
@@ -17,17 +17,15 @@ interface MaxSumObject {
   }
 
 const Page = () => {
-    const {attributes, choices} = useGlobalStore();
     const { calculatedChoices } = useDecisionCalculator();
-    // const [ highestChoice, setHighestChoice ] = useState<HighestChoice[]>([])
+    const [ highestChoice, setHighestChoice ] = useState<MaxSumObject>({
+        title: '',
+        sum: 0,
+        numbers: []
+    })
     useEffect(() => {
-        // Memoize the calculatedChoices array to ensure stable dependencies
-        const memoizedCalculatedChoices = useMemo(() => calculatedChoices, [calculatedChoices]);
-      
-        console.log(memoizedCalculatedChoices);
-      
-        if (memoizedCalculatedChoices.length > 0) {
-          const result = memoizedCalculatedChoices.reduce(
+        if (calculatedChoices.length > 0) {
+          const result = calculatedChoices.reduce(
             (maxSumObject: MaxSumObject, currentObject: CalculatedChoices) => {
               const currentSum = currentObject.scores.reduce((acc, num) => acc + num, 0);
       
@@ -37,13 +35,13 @@ const Page = () => {
                 return maxSumObject;
               }
             },
-            { title: '', sum: 0, numbers: [] } // Initial maxSumObject with a sum of 0
+            { title: '', sum: 0, numbers: [] }
           );
       
-          console.log(result);
-          // Perform other actions or logic based on the result if needed
+          setHighestChoice(result);
+     
         }
-      }, [calculatedChoices]);
+      }, [calculatedChoices]); 
 
     return(
         <div  className="bg-myWhite min-h-screen max-w-screen p-10 overflow-x-hidden pb-16">
@@ -62,7 +60,7 @@ const Page = () => {
                             calculatedChoices.map((item, i) => {
                                 const sum: number = item.scores.reduce((acc, current) => acc + current, 0);
                                 return <div key = {i} className='sm:w-[40%] xl:w-[30%] mr-4 hover:bg-grey shadow-md shadow-lightGrey transition duration-300 mb-4 flex flex-col border rounded-md border-grey p-4 cursor-pointer'>
-                                            <p className='font-bold '>{item.title}</p>
+                                            <p className='font-bold sm:mb-2'>{item.title}</p>
                                             <p>{`Total Score: ${sum}`}</p>
                                         </div>
                             })
@@ -71,11 +69,18 @@ const Page = () => {
                 </div>
                 <div>
                     <p className='font-bold text-[1.2rem] mb-4'>Winner</p>
-                    <div className='sm:w-[40%] xl:w-[30%] mr-4 hover:bg-grey shadow-md shadow-lightGrey transition duration-300 mb-4 flex flex-col border rounded-md border-grey p-4 cursor-pointer'>
-                        {/* <p>{item.title}</p>
-                        <p>{`Total Score: ${highestChoice}`}</p> */}
-                    </div>
+                    {
+                        highestChoice.title !== '' ?
+                            <div className='sm:w-[40%] xl:w-[30%] mr-4 hover:bg-grey shadow-md shadow-lightGrey transition duration-300 mb-4 flex flex-col border rounded-md border-grey p-4 cursor-pointer'>
+                                <p className='font-bold sm:mb-2'>{highestChoice.title}</p>
+                                <p>{`Total Score: ${highestChoice.sum}`}</p>
+                            </div>
+                        : ''
+                    }
                 </div>  
+                <Link href='/' className='flex justify-end mt--13'>
+                    <button className="sm:mb-2 sm:text-[.8rem] sm:p-1 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black">Finish</button>
+                </Link>
             </div>
         </div>
     )

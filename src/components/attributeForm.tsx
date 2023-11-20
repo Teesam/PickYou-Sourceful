@@ -4,6 +4,7 @@ import { useState, FormEvent, useEffect } from 'react';
 import Attributes from './attributes';
 import { useGlobalStore } from './store/contextAPI';
 import { toast } from 'react-toastify';
+import { isConvertibleToNumber } from './utils/checkNumberValue';
 import 'react-toastify/dist/ReactToastify.css';
 
 type Attribute = {
@@ -39,6 +40,10 @@ const Form: React.FC = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    
+    if(!isConvertibleToNumber(newAttribute.weight)){
+        return toast.error('Weight must be a number!');
+    }
     let empty: boolean = false;
     let isDuplicate = false;
     if(newAttribute.name === '' || newAttribute.weight === ''){
