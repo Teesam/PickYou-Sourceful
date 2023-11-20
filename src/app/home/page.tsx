@@ -57,7 +57,7 @@ export default function Page() {
       {
         choices.length < 1 ? '' : 
         <div className='w-full flex justify-end mt-8'>
-            <button onClick={viewResult} disabled = {choices.length < 2} style={choices.length < 2 ? {opacity: '0.4'} : {}} className='sm:mb-2 sm:text-[.8rem] sm:p-1 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black'>Get Decision</button>
+            <button onClick={viewResult} disabled = {choices.length < 2} style={choices.length < 2 ? {opacity: '0.4'} : {}} className='sm:mb-2 sm:text-[.8rem] sm:p-2 sm:pr-4 sm:pl-4 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black'>Get Decision</button>
         </div>
       }
 

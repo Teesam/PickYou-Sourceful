@@ -5,6 +5,7 @@ import AttributeDisplay from "@/components/attributeDisplay";
 import useDecisionCalculator from "@/components/hooks/useDecisionCalculator";
 import Link from 'next/link';
 import { useGlobalStore } from '@/components/store/contextAPI';
+import { useRouter } from 'next/navigation';
 
 interface CalculatedChoices {
     title: string;
@@ -67,6 +68,12 @@ const Page = () => {
         }
       }, [calculatedChoices, decisionCalculator]); 
 
+      const router = useRouter()
+
+      const goHome = () => {
+        router.push('/')
+      }
+
     return(
         <div  className="bg-myWhite min-h-screen max-w-screen p-10 overflow-x-hidden pb-16">
             <div>
@@ -102,9 +109,9 @@ const Page = () => {
                         : ''
                     }
                 </div>  
-                <Link href='/' className='flex justify-end mt--13'>
-                    <button className="sm:mb-2 sm:mt-4 sm:text-[.8rem] sm:p-2 sm:pr-4 sm:pl-4 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black">Finish</button>
-                </Link>
+                <div className='flex justify-end mt--13'>
+                    <button onClick={goHome} className="sm:mb-2 sm:mt-4 sm:text-[.8rem] sm:p-2 sm:pr-4 sm:pl-4 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black">Finish</button>
+                </div>
             </div>
         </div>
     )
