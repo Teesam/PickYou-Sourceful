@@ -4,7 +4,8 @@ import { useGlobalStore } from './store/contextAPI';
 
 const Heading = () => {
 
-    const {userName} = useGlobalStore()
+    const {userName} = useGlobalStore();
+    console.log(userName);
     return(
         <div className="flex justify-between mb-12 items-center xl:flex-row sm:flex-col sm:items-start">
             <div className='sm:mb-8 xl:mb-0'>

@@ -25,6 +25,7 @@ const Page = () => {
         numbers: []
     });
     const { choices, attributes } = useGlobalStore();
+    console.log(choices);
     
     const decisionCalculator = () => {
         const updatedCalculatedChoices = choices.map((choice) => {

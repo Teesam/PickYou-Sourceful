@@ -10,7 +10,6 @@ import {useRouter} from 'next/navigation';
 
 export default function Page() {
   const [modal, setModal] = useState<boolean>(false);
-  const [currentNav, setCurrentNav] = useState<string>('Current Decision');
   const [formType, setFormType] = useState<string>('attribute');
   const addNewAttribute = (): void => {
     setModal(true);
@@ -19,10 +18,6 @@ export default function Page() {
 
   const closeModal = (): void => {
     setModal(false);
-  }
-
-  const currentNavItem = (data: string) => {
-    setCurrentNav(data);
   }
 
   const router = useRouter();
@@ -42,10 +37,8 @@ export default function Page() {
   return (
     <main className="bg-myWhite min-h-screen max-w-screen p-10 overflow-x-hidden pb-16">
       <Heading/>
-      {attributes.length > 0 ? <TopNav setFormType = {setFormType} onClick={addNewAttribute}  passNavToProp = {currentNavItem} /> : '' }
-      {/* {
-        currentNav === 'Current Decision' ? <Upcoming /> : ''
-      } */}
+      
+      {attributes.length > 0 ? <TopNav setFormType = {setFormType} onClick={addNewAttribute} /> : '' }
 
       {
         attributes.length < 1 ? <div className='w-full h-[60vh] flex justify-center items-center'>
