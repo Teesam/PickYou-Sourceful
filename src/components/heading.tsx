@@ -5,19 +5,10 @@ import { useGlobalStore } from './store/contextAPI';
 
 const Heading = () => {
 
-    const [name, setName] = useState<string>('')
-    const getUsername = async () => {
-        try{
-            const { userName} = useGlobalStore();
-            setName(userName)
-        }catch(error){
-            throw Error('There is a probel')
-        }
-    }
-
-    useEffect(() => {getUsername()}, [])
+    const { userName} = useGlobalStore();
+    useEffect(() => {}, [userName.length])
     
-    console.log(name);
+    console.log(userName);
     
     return(
         <div className="flex justify-between mb-12 items-center xl:flex-row sm:flex-col sm:items-start">
@@ -25,7 +16,7 @@ const Heading = () => {
                 <p className='font-bold text-[2rem]'>PickYou</p>
                 <p className='text-deepGrey'>Make the best decisions for you.</p>
             </div>
-            <p className='text-[1.2rem]'>{`Hi, ${name}`}</p>
+            <p className='text-[1.2rem]'>{`Hi, ${userName}`}</p>
         </div>
     )
 }

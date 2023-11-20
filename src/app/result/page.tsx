@@ -65,7 +65,7 @@ const Page = () => {
           setHighestChoice(result);
      
         }
-      }, [calculatedChoices.length < 1]); 
+      }, [calculatedChoices, decisionCalculator]); 
 
     return(
         <div  className="bg-myWhite min-h-screen max-w-screen p-10 overflow-x-hidden pb-16">
