@@ -148,7 +148,10 @@ const ChoiceForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} className='mt-4 h-[60%]'>
-        <p>Add choices</p>
+        <div>
+            <p className='mb-4 font-bold'>Add choices</p>
+            <p>Add each choice of list choices you need to decide on.</p>
+        </div>
         
         <br />
         <div className='w-fulls'>

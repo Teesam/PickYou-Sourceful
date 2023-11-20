@@ -6,12 +6,12 @@ const Heading = () => {
 
     const {userName} = useGlobalStore()
     return(
-        <div className="flex justify-between mb-12 items-center sm:items-start">
-            <div>
+        <div className="flex justify-between mb-12 items-center xl:flex-row sm:flex-col sm:items-start">
+            <div className='sm:mb-8 xl:mb-0'>
                 <p className='font-bold text-[2rem]'>PickYou</p>
                 <p className='text-deepGrey'>Make the best decisions for you.</p>
             </div>
-            <p>{ userName.length > 1 ?  `Hi, ${userName}` : 'Hello!'}</p>
+            <p className='text-[1.2rem]'>{`Hi, ${userName}`}</p>
         </div>
     )
 }

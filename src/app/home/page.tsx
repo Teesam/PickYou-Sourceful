@@ -6,16 +6,16 @@ import TopNav from '@/components/topNav';
 import Modal from '@/components/modal';
 import Upcoming from '@/components/upcoming';
 import { useGlobalStore } from '@/components/store/contextAPI';
-import Link from 'next/link';
+import {useRouter} from 'next/navigation';
 
 export default function Page() {
   const [modal, setModal] = useState<boolean>(false);
   const [currentNav, setCurrentNav] = useState<string>('Current Decision');
-  const [formType, setFormType] = useState<string>('');
+  const [formType, setFormType] = useState<string>('attribute');
   const addNewAttribute = (): void => {
     setModal(true);
   }
-  const { choices } = useGlobalStore();
+  const { choices, attributes } = useGlobalStore();
 
   const closeModal = (): void => {
     setModal(false);
@@ -25,20 +25,46 @@ export default function Page() {
     setCurrentNav(data);
   }
 
+  const router = useRouter();
+
+  const viewResult = () => {
+    localStorage.setItem("choices", JSON.stringify({
+        choices: choices,
+        attributes: attributes
+    }));
+    router.push('/result');
+  }
+
+  const startDecision = () => {
+    setModal(true)
+  }
+
   return (
     <main className="bg-myWhite min-h-screen max-w-screen p-10 overflow-x-hidden pb-16">
       <Heading/>
-      <TopNav setFormType = {setFormType} onClick={addNewAttribute}  passNavToProp = {currentNavItem} />
-      {
+      {attributes.length > 0 ? <TopNav setFormType = {setFormType} onClick={addNewAttribute}  passNavToProp = {currentNavItem} /> : '' }
+      {/* {
         currentNav === 'Current Decision' ? <Upcoming /> : ''
+      } */}
+
+      {
+        attributes.length < 1 ? <div className='w-full h-[60vh] flex justify-center items-center'>
+                                    <button disabled = { choices.length > 0 } 
+                                        style={choices.length > 0 ? {opacity: '0.4'} : {}}
+                                        onClick={startDecision}
+                                        className="sm:mb-2 sm:text-[.8rem] sm:p-4 text-myWhite xl:p-8s rounded-md cursor-pointer bg-black"
+                                    >{attributes.length < 1 ? 'Make Decision' : 'Add Attribute'}
+                                    </button>
+                                </div>
+            : <Upcoming />
       }
+    
+      
 
       {
         choices.length < 1 ? '' : 
         <div className='w-full flex justify-end mt-8'>
-            <Link href={"/result"}>
-                <button disabled = {choices.length < 2} style={choices.length < 2 ? {opacity: '0.4'} : {}} className='sm:mb-2 sm:text-[.8rem] sm:p-1 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black'>Get Decision</button>
-            </Link>
+            <button onClick={viewResult} disabled = {choices.length < 2} style={choices.length < 2 ? {opacity: '0.4'} : {}} className='sm:mb-2 sm:text-[.8rem] sm:p-1 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black'>Get Decision</button>
         </div>
       }
 

@@ -4,16 +4,11 @@ import AttributeDisplay from './attributeDisplay';
 import { useGlobalStore } from './store/contextAPI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
-
-interface Attribute {
-    name: string,
-    weight: string
-  }
   
-  interface FormData {
-    title: string;
-    attributes: {name: string, score: string}[]
-  }
+interface FormData {
+title: string;
+attributes: {name: string, score: string}[]
+}
 
 const Upcoming = () => {
 
