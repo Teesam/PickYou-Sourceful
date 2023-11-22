@@ -15,7 +15,11 @@ interface MyChoice {
     attributes: Attribute[]
 }
 
-const ChoiceForm: React.FC = () => {
+interface ChoiceFormProps{
+    closeModal: () => void
+}
+
+const ChoiceForm: React.FC<ChoiceFormProps> = ({closeModal}) => {
     const [myChoice, setMyChoice] = useState<MyChoice>({
         title: '',
         attributes: []
@@ -120,6 +124,8 @@ const ChoiceForm: React.FC = () => {
                 setChoices(prev => [...prev, myChoice]);
                 clearForm();
             }
+
+            closeModal();
         }else{
             toast.error(checkRange());
         }

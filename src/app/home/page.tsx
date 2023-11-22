@@ -23,10 +23,10 @@ export default function Page() {
   const router = useRouter();
 
   const viewResult = () => {
-    localStorage.setItem("choices", JSON.stringify({
-        choices: choices,
-        attributes: attributes
-    }));
+    // localStorage.setItem("choices", JSON.stringify({
+    //     choices: choices,
+    //     attributes: attributes
+    // }));
     router.push('/result');
   }
 
@@ -62,7 +62,7 @@ export default function Page() {
       }
 
       {
-        modal ? <Modal formFor = {formType} onClick = {closeModal} /> : ''
+        modal ? <Modal formFor = {formType} closeModal = {closeModal} /> : ''
       }
     </main>
   )

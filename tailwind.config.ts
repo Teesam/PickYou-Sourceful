@@ -29,10 +29,12 @@ const config: Config = {
         orange: '#ff913d',
         hoverColor: '#f2ede9',
         red: '#fc031c',
-        lightGrey: '#f0f0f0'
+        lightGrey: '#f0f0f0',
+        brown: '#555'
       }
     },
   },
+  mode: 'jit',
   plugins: [],
 }
 export default config

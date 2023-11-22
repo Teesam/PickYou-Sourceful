@@ -3,7 +3,6 @@
 import {useEffect, useState} from 'react';
 import AttributeDisplay from "@/components/attributeDisplay";
 import useDecisionCalculator from "@/components/hooks/useDecisionCalculator";
-import Link from 'next/link';
 import { useGlobalStore } from '@/components/store/contextAPI';
 import { useRouter } from 'next/navigation';
 
@@ -19,36 +18,14 @@ interface MaxSumObject {
   }
 
 const Page = () => {
-    const [calculatedChoices, setCalculatedChoices] = useState<CalculatedChoices[]>([]);
+    const { calculatedChoices } = useDecisionCalculator();
+    const { setChoices, setAttributes, setUserName } = useGlobalStore()
     const [ highestChoice, setHighestChoice ] = useState<MaxSumObject>({
         title: '',
         sum: 0,
         numbers: []
-    });
-    const { choices, attributes } = useGlobalStore();
-    console.log(choices);
-    
-    const decisionCalculator = () => {
-        const updatedCalculatedChoices = choices.map((choice) => {
-            const title = choice.title;
-            const scores: number[] = [];
-
-            for (let j = 0; j < choice.attributes.length; j++) {
-                scores.push(Number(choice.attributes[j].score) * Number(attributes[j].weight));
-            }
-
-            return {
-                title: title,
-                scores: scores,
-            };
-        });
-
-        setCalculatedChoices(updatedCalculatedChoices);
-    };
-
+    })
     useEffect(() => {
-        decisionCalculator()
-        
         if (calculatedChoices.length > 0) {
           const result = calculatedChoices.reduce(
             (maxSumObject: MaxSumObject, currentObject: CalculatedChoices) => {
@@ -66,13 +43,16 @@ const Page = () => {
           setHighestChoice(result);
      
         }
-      }, [calculatedChoices, decisionCalculator]); 
+    }, [calculatedChoices]); 
 
-      const router = useRouter()
+    const router = useRouter();
 
-      const goHome = () => {
-        router.push('/')
-      }
+    const resetStore = ():void => {
+        setChoices([]);
+        setAttributes([]);
+        setUserName('')
+        router.push('/home')
+    }
 
     return(
         <div  className="bg-myWhite min-h-screen max-w-screen p-10 overflow-x-hidden pb-16">
@@ -110,7 +90,7 @@ const Page = () => {
                     }
                 </div>  
                 <div className='flex justify-end mt--13'>
-                    <button onClick={goHome} className="sm:mb-2 sm:mt-4 sm:text-[.8rem] sm:p-2 sm:pr-4 sm:pl-4 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black">Finish</button>
+                    <button className="sm:mb-2 sm:text-[.8rem] sm:p-1 text-myWhite xl:p-4 rounded-md cursor-pointer bg-black">Finish</button>
                 </div>
             </div>
         </div>

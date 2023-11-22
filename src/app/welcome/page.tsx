@@ -13,6 +13,7 @@ const Page: React.FC = () => {
         setName(e.target.value);
     }
     const router = useRouter();
+    
     const resetStore = ():void => {
         setChoices([]);
         setAttributes([]);

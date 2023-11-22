@@ -13,8 +13,12 @@ type Attribute = {
     weight: string
 }
 
+interface FormProps {
+    closeModal: () => void
+}
 
-const Form: React.FC = () => {
+
+const Form: React.FC<FormProps> = ({closeModal}) => {
   const [newAttribute, setNewAttribute] = useState<Attribute>({
     name: '',
     weight: ''
@@ -70,6 +74,7 @@ const Form: React.FC = () => {
                 setAttributes(prev => [...prev, newAttribute])
                 clearForm();
             }
+            closeModal()
         }else{
             toast.error(isWithinValueRange(newAttribute.weight, 'attribute'));
         }
