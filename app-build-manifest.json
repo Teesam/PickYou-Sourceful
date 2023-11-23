@@ -1,0 +1,52 @@
+{
+  "pages": {
+    "/_not-found": [
+      "static/chunks/webpack-48e2fc6890281e43.js",
+      "static/chunks/fd9d1056-9fd2f7df2097e778.js",
+      "static/chunks/472-0603e37e15630b71.js",
+      "static/chunks/main-app-d034d7b75c7eacd1.js",
+      "static/chunks/app/_not-found-aa38f80ee06f0338.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-48e2fc6890281e43.js",
+      "static/chunks/fd9d1056-9fd2f7df2097e778.js",
+      "static/chunks/472-0603e37e15630b71.js",
+      "static/chunks/main-app-d034d7b75c7eacd1.js",
+      "static/css/d0f74ad40580cedb.css",
+      "static/chunks/app/layout-0115f7e3a718c7ac.js"
+    ],
+    "/home/page": [
+      "static/chunks/webpack-48e2fc6890281e43.js",
+      "static/chunks/fd9d1056-9fd2f7df2097e778.js",
+      "static/chunks/472-0603e37e15630b71.js",
+      "static/chunks/main-app-d034d7b75c7eacd1.js",
+      "static/chunks/870fdd6f-f890aca9c5331e7f.js",
+      "static/chunks/173-1da3cd76034d81b5.js",
+      "static/css/431944509084d071.css",
+      "static/chunks/app/home/page-354cac0a369f0394.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-48e2fc6890281e43.js",
+      "static/chunks/fd9d1056-9fd2f7df2097e778.js",
+      "static/chunks/472-0603e37e15630b71.js",
+      "static/chunks/main-app-d034d7b75c7eacd1.js",
+      "static/chunks/app/page-807f916e498f4630.js"
+    ],
+    "/result/page": [
+      "static/chunks/webpack-48e2fc6890281e43.js",
+      "static/chunks/fd9d1056-9fd2f7df2097e778.js",
+      "static/chunks/472-0603e37e15630b71.js",
+      "static/chunks/main-app-d034d7b75c7eacd1.js",
+      "static/chunks/870fdd6f-f890aca9c5331e7f.js",
+      "static/chunks/173-1da3cd76034d81b5.js",
+      "static/chunks/app/result/page-799e9152e178d390.js"
+    ],
+    "/welcome/page": [
+      "static/chunks/webpack-48e2fc6890281e43.js",
+      "static/chunks/fd9d1056-9fd2f7df2097e778.js",
+      "static/chunks/472-0603e37e15630b71.js",
+      "static/chunks/main-app-d034d7b75c7eacd1.js",
+      "static/chunks/app/welcome/page-c189c4e34fc56496.js"
+    ]
+  }
+}
